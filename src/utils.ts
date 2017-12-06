@@ -3,6 +3,14 @@ export type Dictionary<T> = {
 }
 
 export type RequestParams = {
-  page: number,
-  per_page: number,
+  page?: number;
+  per_page?: number;
+}
+
+
+export interface ResponseMeta {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
 }

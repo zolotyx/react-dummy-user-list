@@ -8,7 +8,9 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <UserListContainer/>
+        <div className="container">
+          <UserListContainer/>
+        </div>
       </Provider>
     );
   }

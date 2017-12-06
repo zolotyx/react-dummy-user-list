@@ -7,7 +7,6 @@ import { rootReducer } from './root.reducer';
 import { AppState } from './store';
 import { sagaMiddleware } from './sagas';
 
-
 export default function initStore(initialState?: AppState) {
   const middleware: Array<Middleware> = [];
   const enhancers: Array<StoreEnhancer<AppState>> = [];
@@ -26,9 +25,7 @@ export default function initStore(initialState?: AppState) {
     });
     middleware.push(logger);
 
-
     enhancers.push(applyMiddleware(...middleware));
-
   }
   const enhancer = composeEnhancers(...enhancers);
 

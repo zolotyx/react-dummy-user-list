@@ -1,14 +1,21 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Grid, Row, Col, Pagination, Alert } from 'react-bootstrap';
+import { Loading } from '../../shared/components/Loading';
 import { AppState } from '../../store/store';
-import { RequestParams } from '../../utils';
+import { RequestParams, ResponseMeta } from '../../utils';
 import { User } from '../models/user';
 import { fetchUsers } from '../redux/user.actions';
-import { selectUsers, usersLoading } from '../redux/user.selector';
+import {
+  selectUsersMeta, selectUsers, usersLoading,
+  selectUsersError
+} from '../redux/user.selector';
 import { UserCard } from './UserCard';
 
 interface UserListStateProps {
   list: User[];
+  error: string;
+  meta: ResponseMeta;
   loading: boolean;
 }
 
@@ -24,16 +31,35 @@ class UserList extends React.Component<UserListProps> {
     this.props.fetchUsers();
   }
 
+  paginate(page: any) {
+
+    this.props.fetchUsers({ page });
+  }
+
   render() {
-    const { list, loading } = this.props;
+    const { list, loading, meta, error } = this.props;
+    console.log(meta);
     return (
       <div>
-        <div>
-          {list.map((user: User) => (
-            <UserCard key={user.id} user={user}/>
-          ))}
-        </div>
-        {loading ? (<div>Loading</div>) : null}
+        {error ? <Alert bsStyle="warning">
+          <strong>Holy guacamole!</strong> {error}
+        </Alert> : null}
+        <Grid>
+          <Row>
+            {list.map((user: User) => (
+              <Col key={user.id} xs={4} md={2}>
+                <UserCard key={user.id} user={user}/>
+              </Col>
+            ))}
+          </Row>
+        </Grid>
+        <Pagination
+          bsSize="medium"
+          items={meta.total_pages}
+          activePage={meta.page}
+          onSelect={(page: any) => this.paginate(page)}
+        />
+        {loading ? <Loading/> : null}
 
       </div>
     );
@@ -42,6 +68,8 @@ class UserList extends React.Component<UserListProps> {
 
 const mapStateToProps = (state: AppState): UserListStateProps => ({
   list: selectUsers(state),
+  meta: selectUsersMeta(state),
+  error: selectUsersError(state),
   loading: usersLoading(state)
 });
 

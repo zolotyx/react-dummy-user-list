@@ -9,5 +9,4 @@ export type AppState = {
 
 export const store: Store<AppState> = initStore();
 
-
 sagaMiddleware.run(rootSaga);
