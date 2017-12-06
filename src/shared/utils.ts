@@ -1,12 +1,11 @@
-export type Dictionary<T> = {
+export interface Dictionary<T> {
   [key: string]: T
 }
 
-export type RequestParams = {
+export interface RequestParams {
   page?: number | string;
   per_page?: number;
 }
-
 
 export interface ResponseMeta {
   page: number;

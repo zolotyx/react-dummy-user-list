@@ -3,9 +3,9 @@ import { UserState } from '../user/redux/user.reducer';
 import initStore from './initStore';
 import { rootSaga, sagaMiddleware } from './sagas';
 
-export type AppState = {
-  user: UserState
-};
+export interface AppState {
+  user: UserState;
+}
 
 export const store: Store<AppState> = initStore();
 
