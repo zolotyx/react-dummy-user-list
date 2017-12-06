@@ -7,6 +7,7 @@ interface LoadingProps {
 
 interface LoadingState {
   now: number,
+  incrementStep: number,
   progressInterval: any
 }
 
@@ -16,14 +17,17 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
     super(props, state);
     this.state = {
       now: 0,
+      incrementStep: 15,
       progressInterval: null
     };
   }
 
   componentDidMount() {
     const interval = setInterval(() => {
-      const { now } = this.state;
-      this.setState({ now: now + 5 });
+      const { now, incrementStep } = this.state;
+      // slow the speed down down
+      const newIncrementStep = incrementStep > 5 ? incrementStep - 1 : incrementStep;
+      this.setState({ now: now + incrementStep, incrementStep: newIncrementStep });
       if (now > 90) {
         clearInterval(this.state.progressInterval);
       }
@@ -40,8 +44,6 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
 
   render() {
     const { now } = this.state;
-    return (
-      <ProgressBar active now={now} label={`${now}%`}/>
-    );
+    return (<ProgressBar active now={now} label={`${now}%`}/>);
   }
 }

@@ -26,7 +26,7 @@ export const UserService = {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(http.get('https://reqres.in/api/users', { params }));
-      }, 2000);
+      }, 1000);
     });
   }
 };

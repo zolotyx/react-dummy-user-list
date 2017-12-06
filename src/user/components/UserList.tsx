@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Pagination, Alert } from 'react-bootstrap';
+import { Row, Col, Pagination, Alert } from 'react-bootstrap';
 import { Loading } from '../../shared/components/Loading';
 import { AppState } from '../../store/store';
 import { RequestParams, ResponseMeta } from '../../utils';
@@ -20,7 +20,7 @@ interface UserListStateProps {
 }
 
 interface UserListDispatchProps {
-  fetchUsers(params?: RequestParams): void;
+  fetchUsers: (params?: RequestParams) => void;
 }
 
 export type UserListProps = UserListStateProps & UserListDispatchProps;
@@ -33,7 +33,10 @@ class UserList extends React.Component<UserListProps> {
 
   paginate(page: any) {
 
-    this.props.fetchUsers({ page });
+    const { meta } = this.props;
+    if (meta.page !== page) {
+      this.props.fetchUsers({ page });
+    }
   }
 
   render() {
@@ -41,26 +44,24 @@ class UserList extends React.Component<UserListProps> {
     console.log(meta);
     return (
       <div>
-        {error ? <Alert bsStyle="warning">
-          <strong>Holy guacamole!</strong> {error}
-        </Alert> : null}
-        <Grid>
-          <Row>
-            {list.map((user: User) => (
-              <Col key={user.id} xs={4} md={2}>
-                <UserCard key={user.id} user={user}/>
-              </Col>
-            ))}
-          </Row>
-        </Grid>
+        <h1>List of Users from <a href="https://reqres.in/">https://reqres.in/</a></h1>
+        {error
+          ? <Alert bsStyle="danger"><strong>Holy guacamole!</strong> {error}</Alert>
+          : null}
+        <Row>
+          {list.map((user: User) => (
+            <Col key={user.id} xs={6} md={2}>
+              <UserCard key={user.id} user={user}/>
+            </Col>
+          ))}
+        </Row>
+        {loading ? <Loading/> : null}
         <Pagination
           bsSize="medium"
           items={meta.total_pages}
           activePage={meta.page}
           onSelect={(page: any) => this.paginate(page)}
         />
-        {loading ? <Loading/> : null}
-
       </div>
     );
   }
