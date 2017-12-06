@@ -1,4 +1,4 @@
-import { RequestParams } from '../../utils';
+import { RequestParams } from '../../shared/utils';
 
 import http from '../../shared/api/api.service';
 
@@ -9,27 +9,28 @@ const defaultRequestParams: RequestParams = {
   per_page: 4
 };
 
+export const USER_API_ENDPOINT = '/api/users';
+
 export const UserService = {
   list: (requestParams?: RequestParams) => {
     const params: RequestParams = {
       ...defaultRequestParams,
-      ...requestParams
+      ...requestParams,
+      delay: 1
     };
-    if (params.page === 2 && hardcodedErrorsCount) {
+    if (`${params.page}` === '2' && hardcodedErrorsCount) {
       hardcodedErrorsCount--;
       return Promise.reject({
-        data: {
-          message: 'The second page can not be loaded. (To check error handling) It should work next time'
+        response: {
+          statusText: 'The second page can not be loaded. (To check error handling) It should work next time'
         }
       });
     }
-    return new Promise((resolve) => {
-      setTimeout(
-        () => {
-          resolve(http.get('https://reqres.in/api/users', { params }));
-        },
-        1000
-      );
-    });
+
+    return http.get(USER_API_ENDPOINT, { params });
+
+  },
+  get: (id: string | number) => {
+    return http.get(`${USER_API_ENDPOINT}/${id}`);
   }
 };

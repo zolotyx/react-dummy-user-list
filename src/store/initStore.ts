@@ -24,10 +24,11 @@ export default function initStore(initialState?: AppState) {
       collapsed: true
     });
     middleware.push(logger);
-
-    enhancers.push(applyMiddleware(...middleware));
   }
+
+  enhancers.push(applyMiddleware(...middleware));
   const enhancer = composeEnhancers(...enhancers);
 
   return createStore(rootReducer, initialState, enhancer) as Store<AppState>;
+
 }

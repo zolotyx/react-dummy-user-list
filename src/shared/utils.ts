@@ -3,7 +3,7 @@ export type Dictionary<T> = {
 }
 
 export type RequestParams = {
-  page?: number;
+  page?: number | string;
   per_page?: number;
 }
 

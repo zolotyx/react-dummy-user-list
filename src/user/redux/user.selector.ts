@@ -1,45 +1,57 @@
 import { createSelector } from 'reselect';
 import { AppState } from '../../store/store';
-import { UserState } from './user.reducer';
+import { UserDetailsState, UserListState, UserState } from './user.reducer';
 
 export const userState = (state: AppState): UserState => state.user;
 
+export const userListState = createSelector(
+  userState, (uState: UserState) => uState.list
+);
+
+export const userDetailsState = createSelector(
+  userState, (uState: UserState) => uState.details
+);
+
 export const selectUsersMeta = createSelector(
-  userState, (uState: UserState) => {
-    return uState.meta;
+  userListState, (state: UserListState) => {
+    return state.meta;
   }
 );
 
 export const selectUsers = createSelector(
-  userState, (uState: UserState) => {
+  userListState, (uState: UserListState) => {
     return uState.ids.map(id => uState.byId[id]);
   }
 );
 
 export const selectCurrentUserId = createSelector(
-  userState, (uState: UserState) => {
+  userDetailsState, (uState: UserDetailsState) => {
     return uState.selectedId;
   }
 );
 
-
 export const selectedUserDetails = createSelector(
-  userState,
+  userDetailsState,
   selectCurrentUserId,
-  (uState: UserState, selectedUserId) => {
-    return selectedUserId ? uState.detailsById[selectedUserId] : null;
+  (uState: UserDetailsState, selectedUserId: number) => {
+    return selectedUserId ? uState.byId[selectedUserId] : null;
   }
 );
 
+export const selectUserDetailsError = createSelector(
+  userDetailsState, (uState: UserDetailsState) => {
+    return uState.error;
+  }
+);
 
 export const selectUsersError = createSelector(
-  userState, (uState: UserState) => {
+  userListState, (uState: UserListState) => {
     return uState.error;
   }
 );
 
 export const usersLoading = createSelector(
-  userState, (uState: UserState) => {
+  userListState, (uState: UserListState) => {
     return uState.loading;
   }
 );
