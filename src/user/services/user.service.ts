@@ -10,7 +10,7 @@ const defaultRequestParams: RequestParams = {
 };
 
 export const UserService = {
-  get: (requestParams?: RequestParams) => {
+  list: (requestParams?: RequestParams) => {
     const params: RequestParams = {
       ...defaultRequestParams,
       ...requestParams
@@ -24,9 +24,12 @@ export const UserService = {
       });
     }
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(http.get('https://reqres.in/api/users', { params }));
-      }, 1000);
+      setTimeout(
+        () => {
+          resolve(http.get('https://reqres.in/api/users', { params }));
+        },
+        1000
+      );
     });
   }
 };

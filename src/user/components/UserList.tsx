@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Pagination, Alert } from 'react-bootstrap';
+import { Row, Grid, Col, Pagination, Alert } from 'react-bootstrap';
 import { Loading } from '../../shared/components/Loading';
 import { AppState } from '../../store/store';
 import { RequestParams, ResponseMeta } from '../../utils';
@@ -31,7 +31,7 @@ class UserList extends React.Component<UserListProps> {
     this.props.fetchUsers();
   }
 
-  paginate(page: any) {
+  paginate(page: number) {
 
     const { meta } = this.props;
     if (meta.page !== page) {
@@ -41,9 +41,8 @@ class UserList extends React.Component<UserListProps> {
 
   render() {
     const { list, loading, meta, error } = this.props;
-    console.log(meta);
     return (
-      <div>
+      <Grid>
         <h1>List of Users from <a href="https://reqres.in/">https://reqres.in/</a></h1>
         {error
           ? <Alert bsStyle="danger"><strong>Holy guacamole!</strong> {error}</Alert>
@@ -62,7 +61,7 @@ class UserList extends React.Component<UserListProps> {
           activePage={meta.page}
           onSelect={(page: any) => this.paginate(page)}
         />
-      </div>
+      </Grid>
     );
   }
 }

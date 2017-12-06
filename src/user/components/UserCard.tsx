@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { User } from '../models/user';
 import { Thumbnail } from 'react-bootstrap';
 
@@ -11,7 +12,7 @@ export class UserCard extends React.Component<UserCardProps> {
     const user = this.props.user;
     return (
       <Thumbnail src={user.avatar}>
-        <h4>{user.first_name} {user.last_name}</h4>
+        <Link to={`/user/${user.id}`}><h4>{user.first_name} {user.last_name}</h4></Link>
       </Thumbnail>);
   }
 }

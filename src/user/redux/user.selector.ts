@@ -6,15 +6,32 @@ export const userState = (state: AppState): UserState => state.user;
 
 export const selectUsersMeta = createSelector(
   userState, (uState: UserState) => {
-    return uState.data;
+    return uState.meta;
   }
 );
 
 export const selectUsers = createSelector(
   userState, (uState: UserState) => {
-    return uState.data.data;
+    return uState.ids.map(id => uState.byId[id]);
   }
 );
+
+export const selectCurrentUserId = createSelector(
+  userState, (uState: UserState) => {
+    return uState.selectedId;
+  }
+);
+
+
+export const selectedUserDetails = createSelector(
+  userState,
+  selectCurrentUserId,
+  (uState: UserState, selectedUserId) => {
+    return selectedUserId ? uState.detailsById[selectedUserId] : null;
+  }
+);
+
+
 export const selectUsersError = createSelector(
   userState, (uState: UserState) => {
     return uState.error;

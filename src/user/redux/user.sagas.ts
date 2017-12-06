@@ -19,10 +19,9 @@ function* fetchUsersSaga() {
 
 function* fetchUsersWorker(action: Action<RequestParams>) {
   try {
-    const { data } = yield call(UserService.get, action.payload);
+    const { data } = yield call(UserService.list, action.payload);
     yield put(fetchUsersSuccess(data));
   } catch (error) {
-    yield put(fetchUsersError(error));
+    yield put(fetchUsersError(error.data.message));
   }
-
 }
