@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import './App.css';
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Link } from 'react-router-dom';
