@@ -6,7 +6,9 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { RequestParams } from '../../shared/utils';
 import { UserService } from '../services/user.service';
 import {
-  fetchUserDetailsError, fetchUserDetailsSuccess, fetchUsers,
+  fetchUserDetailsError,
+  fetchUserDetailsSuccess,
+  fetchUsers,
   fetchUsersError,
   fetchUsersSuccess,
   selectUser

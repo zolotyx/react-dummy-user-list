@@ -24,10 +24,11 @@ export class Loading extends React.Component<LoadingProps, LoadingState> {
   }
 
   componentDidMount() {
+    // start interval to increase the percentage by 15 and then reduce that number over time
     const interval = setInterval(
       () => {
         const { now, incrementStep } = this.state;
-        // slow the speed down down
+        // slow the speed down
         const newIncrementStep = incrementStep > 5 ? incrementStep - 1 : incrementStep;
         this.setState({ now: now + incrementStep, incrementStep: newIncrementStep });
         if (now > 90) {

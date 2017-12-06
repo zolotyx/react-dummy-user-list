@@ -50,11 +50,6 @@ export interface UserState {
   details: UserDetailsState;
 }
 
-export const initialState: UserState = {
-  list: initialListState,
-  details: initialDetailsState
-};
-
 export type UsersResponse = ResponseMeta & {
   data: User[];
 };
